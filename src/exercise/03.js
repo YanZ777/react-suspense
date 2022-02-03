@@ -82,7 +82,7 @@ function App() {
         useTransition above is pending
       */
       }
-      <div style={{opacity: isPending ? 0.6 : 1}} className="pokemon-info">
+      <div className={isPending ? "pokemon-info pokemon-loading" : "pokemon-info"}>
       <div className="pokemon-info">
         {pokemonResource ? (
           <PokemonErrorBoundary
