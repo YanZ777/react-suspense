@@ -31,9 +31,22 @@ const SUSPENSE_CONFIG = {
 
 const PokemonResourceCacheContext = React.createContext()
 
-function PokemonCacheProvider({children}) {
+function PokemonCacheProvider({children, cacheTime}) {
 // 🐨 create a pokemonResourceCache object
 const cache = React.useRef({});
+const expirations = React.useRef({})
+
+React.useEffect(() => {
+   const interval = setInterval(() => {
+      for (const [name, time] of Object.entries(expirations.current)) {
+         if (time < Date.now()) {
+            delete cache.current[name]
+         }
+      }
+   }, 1000);
+
+   return interval;
+}, []);
 
 // 🐨 create a getPokemonResource function which accepts a name checks the cache
 // for an existing resource. If there is none, then it creates a resource
@@ -49,6 +62,7 @@ const cache = React.useRef({});
          cache.current[lowerName] = resource
       }
 
+      expirations.current[lowerName] = Date.now() + cacheTime
       return resource;
    }, []);
 
@@ -119,7 +133,7 @@ function App() {
 
 function AppWithProvider() {
    return (
-      <PokemonCacheProvider>
+      <PokemonCacheProvider cacheTime={5000}>
          <App />
       </PokemonCacheProvider>
    )
