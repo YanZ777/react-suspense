@@ -29,6 +29,28 @@ import {createResource} from '../utils'
 // 💰 Here's what rendering the <img /> should look like:
 // <img src={imgSrcResource.read()} {...props} />
 
+function preloadImage(src) {
+   return new Promise(resolve => {
+      const img = document.createElement('img');
+
+      img.src = src;
+      img.onload = () => resolve(src);
+   });
+}
+
+const imgSrcResourceCache = {};
+
+function Img({src, alt, ...props}) {
+   let imgSrcResource = imgSrcResourceCache[src]
+
+   if (!imgSrcResource) {
+      imgSrcResource = createResource(preloadImage(src));
+      imgSrcResourceCache[src] = imgSrcResource;
+   }
+
+   return <Img src={imgSrcResource.read()} alt={alt} {...props} />;
+}
+
 function PokemonInfo({pokemonResource}) {
   const pokemon = pokemonResource.read()
   return (
