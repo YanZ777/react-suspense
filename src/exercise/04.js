@@ -64,7 +64,7 @@ React.useEffect(() => {
 
       expirations.current[lowerName] = Date.now() + cacheTime
       return resource;
-   }, []);
+   }, [cacheTime]);
 
    return <PokemonResourceCacheContext.Provider value={getPokemonResource}>{children}</PokemonResourceCacheContext.Provider>
 }
