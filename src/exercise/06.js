@@ -3,14 +3,15 @@
 
 import * as React from 'react'
 import {
-  fetchPokemon,
-  getImageUrlForPokemon,
+  // fetchPokemon,
+  // getImageUrlForPokemon,
   PokemonInfoFallback,
   PokemonForm,
   PokemonDataView,
   PokemonErrorBoundary,
+  usePokemonResource,
 } from '../pokemon'
-import {createResource, preloadImage} from '../utils'
+// import {createResource, preloadImage} from '../utils'
 
 function PokemonInfo({pokemonResource}) {
   const pokemon = pokemonResource.data.read()
@@ -24,6 +25,7 @@ function PokemonInfo({pokemonResource}) {
   )
 }
 
+/*
 const SUSPENSE_CONFIG = {
   timeoutMs: 4000,
   busyDelayMs: 300,
@@ -64,6 +66,7 @@ function usePokemonResource(pokemonName) {
 
    return [pokemonResource, isPending];
 }
+*/
 
 function App() {
   const [pokemonName, setPokemonName] = React.useState('')
